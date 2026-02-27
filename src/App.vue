@@ -1,22 +1,24 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { remult } from 'remult';
 import { Task } from './shared/Task';
 
-const taskRepository = remult.repo(Task);
 const tasks = ref<Task[]>([]);
+const taskRepository = remult.repo(Task);
 onMounted(() =>
-  taskRepository
-    .find({
-      where: {
-        completed: undefined, // Fetch all tasks regardless of completion status
-      },
-      orderBy: {
-        title: 'asc', // Order by title, ascending
-        createdAt: 'desc', // Order by createdAt, descending
-      },
-    })
-    .then((items) => (tasks.value = items)),
+  onMounted(
+    taskRepository
+      .liveQuery({
+        where: {
+          completed: undefined, // Fetch all tasks
+        },
+        orderBy: {
+          completed: 'asc', // Order by completed, ascending
+          title: 'asc', // Order by title, ascending
+        },
+      })
+      .subscribe((info) => (tasks.value = info.applyChanges(tasks.value))),
+  ),
 );
 
 const newTaskTitle = ref('');
@@ -26,27 +28,25 @@ const addTask = async () => {
     const newTask = await taskRepository.insert({
       title: newTaskTitle.value,
     });
-    tasks.value.push(newTask);
     newTaskTitle.value = '';
-  } catch (error: any) {
-    alert(`Error adding task: ${error.message}`);
+  } catch (error: unknown) {
+    alert((error as { message: string }).message);
   }
 };
 
 const deleteTask = async (task: Task) => {
   try {
-    await taskRepository.delete(task);
-    tasks.value = tasks.value.filter((t) => t !== task);
-  } catch (error: any) {
-    alert(`Error deleting task: ${error.message}`);
+    await taskRepository.delete(task.id);
+  } catch (error: unknown) {
+    alert((error as { message: string }).message);
   }
 };
 
 const saveTask = async (task: Task) => {
   try {
     await taskRepository.save(task);
-  } catch (error: any) {
-    alert(`Error saving task: ${error.message}`);
+  } catch (error: unknown) {
+    alert((error as { message: string }).message);
   }
 };
 </script>
@@ -58,30 +58,28 @@ const saveTask = async (task: Task) => {
       <input type="text" placeholder="New task" v-model="newTaskTitle" />
       <button>Add ToDo</button>
     </form>
-
     <h3 class="all-tasks">All Tasks ({{ tasks.length }})</h3>
-    <div v-for="task in tasks">
+    <div v-for="task in tasks" :key="task.id">
       <input
         type="checkbox"
         v-model="task.completed"
-        @change="() => saveTask(task)"
+        @change="saveTask(task)"
       />
-      {{ task.title }}
-      <button @click="deleteTask(task)">Delete</button>
+      <input class="task-title" v-model="task.title" />
+      <button class="save-task" @click="saveTask(task)">Save</button>
+      <button class="delete-task" @click="deleteTask(task)">Delete</button>
     </div>
-
     <h3 class="pending-tasks">
       Pending Tasks ({{ tasks.filter((task) => !task.completed).length }})
     </h3>
-    <div v-for="task in tasks.filter((task) => !task.completed)">
+    <div v-for="task in tasks.filter((task) => !task.completed)" :key="task.id">
       <input type="checkbox" v-model="task.completed" />
       {{ task.title }}
     </div>
-
     <h3 class="completed-tasks">
       Completed Tasks ({{ tasks.filter((task) => task.completed).length }})
     </h3>
-    <div v-for="task in tasks.filter((task) => task.completed)">
+    <div v-for="task in tasks.filter((task) => task.completed)" :key="task.id">
       <input type="checkbox" v-model="task.completed" />
       {{ task.title }}
     </div>
