@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
 import { remult } from 'remult';
-import { Task } from './shared/Task';
+import { Task } from './shared/task';
+import { TasksController } from './shared/TaskController';
 
 const tasks = ref<Task[]>([]);
 const taskRepository = remult.repo(Task);
@@ -22,6 +23,7 @@ onMounted(() =>
 );
 
 const newTaskTitle = ref('');
+declare function alert(message?: string): void;
 
 const addTask = async () => {
   try {
@@ -49,12 +51,16 @@ const saveTask = async (task: Task) => {
     alert((error as { message: string }).message);
   }
 };
+
+const setAllTaskCompleted = async (completed: boolean) => {
+  await TasksController.setAllTaskCompleted(completed);
+};
 </script>
 
 <template>
   <h1>Todo List</h1>
   <main>
-    <form @submit.prevent="($event) => addTask()">
+    <form @submit.prevent="() => addTask()">
       <input type="text" placeholder="New task" v-model="newTaskTitle" />
       <button>Add ToDo</button>
     </form>
@@ -68,6 +74,10 @@ const saveTask = async (task: Task) => {
       <input class="task-title" v-model="task.title" />
       <button class="save-task" @click="saveTask(task)">Save</button>
       <button class="delete-task" @click="deleteTask(task)">Delete</button>
+    </div>
+    <div>
+      <button @click="setAllTaskCompleted(false)">Set all uncompleted</button>
+      <button @click="setAllTaskCompleted(true)">Set all completed</button>
     </div>
     <h3 class="pending-tasks">
       Pending Tasks ({{ tasks.filter((task) => !task.completed).length }})

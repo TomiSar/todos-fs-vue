@@ -1,12 +1,12 @@
-import { Entity, Fields, Validators } from 'remult';
+import { Entity, Fields, Allow } from 'remult';
 
-@Entity('tasks', { allowApiCrud: true })
+@Entity('tasks', { allowApiCrud: Allow.authenticated })
 export class Task {
   @Fields.autoIncrement()
   id = 0;
 
   @Fields.string({
-    validate: (task) => {
+    validate: (task: Task) => {
       if (!task.title || task.title.trim().length === 0) {
         throw new Error('Title is required');
       }
