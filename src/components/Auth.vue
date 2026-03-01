@@ -52,7 +52,10 @@ onMounted(async () => {
     <h1>ToDos</h1>
     <main>
       <form @submit.prevent="signIn()">
-        <input v-model="username" placeholder="Username, try Jane or John" />
+        <input
+          v-model="username"
+          placeholder="Username maybe: (Jane, John or Admin)"
+        />
         <button>Sign in</button>
       </form>
     </main>

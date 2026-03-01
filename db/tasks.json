@@ -1,37 +1,30 @@
 [
   {
     "title": "Go skate Friday",
-    "completed": false,
+    "completed": true,
     "createdAt": "2026-02-26T21:25:49.216Z",
-    "updatedAt": "2026-02-28T15:48:25.839Z",
+    "updatedAt": "2026-03-01T15:31:12.587Z",
     "id": 3
   },
   {
     "title": "Take a dog out",
     "completed": false,
     "createdAt": "2026-02-26T21:26:09.714Z",
-    "updatedAt": "2026-02-28T15:48:25.841Z",
+    "updatedAt": "2026-03-01T15:29:11.239Z",
     "id": 4
   },
   {
-    "title": "Buy Groceries",
+    "title": "Buy Groceries for lasagne",
     "completed": false,
     "createdAt": "2026-02-26T22:41:18.287Z",
-    "updatedAt": "2026-02-28T15:48:25.851Z",
+    "updatedAt": "2026-03-01T15:30:44.900Z",
     "id": 6
   },
   {
-    "title": "Eat pizza hmmm...",
+    "title": "Eat delicious pizza",
     "completed": false,
     "createdAt": "2026-02-27T19:15:42.808Z",
-    "updatedAt": "2026-02-28T15:48:25.861Z",
+    "updatedAt": "2026-03-01T15:31:10.526Z",
     "id": 8
-  },
-  {
-    "title": "New task for Saturday",
-    "completed": false,
-    "createdAt": "2026-02-28T15:26:35.810Z",
-    "updatedAt": "2026-02-28T15:48:25.870Z",
-    "id": 9
   }
 ]

@@ -1,6 +1,6 @@
 import { remultApi } from 'remult/remult-express';
 import { Task } from '../shared/task';
-import { TasksController } from '../shared/TaskController';
+import { TasksController } from '../shared/taskController';
 
 export const api = remultApi({
   entities: [Task],

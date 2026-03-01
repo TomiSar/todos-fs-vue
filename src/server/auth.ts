@@ -2,8 +2,9 @@ import { json, Router } from 'express';
 import type { UserInfo } from 'remult';
 
 const validUsers: UserInfo[] = [
-  { id: '1', name: 'Jane' },
-  { id: '2', name: 'John' },
+  { id: '1', name: 'Admin', roles: ['admin'] },
+  { id: '2', name: 'Jane', roles: ['editor'] },
+  { id: '3', name: 'John', roles: ['editor'] },
 ];
 
 export const auth = Router();
