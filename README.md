@@ -35,6 +35,12 @@ npm install
 npm run dev
 ```
 
+### Start node backend server
+
+```sh
+npm run dev-node
+```
+
 ### Type-Check, Compile and Minify for Production
 
 ```sh
