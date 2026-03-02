@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "server": "tsx src/server",
     "dev-node": "tsx watch --tsconfig tsconfig.server.json src/server",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",

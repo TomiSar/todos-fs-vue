@@ -49,7 +49,7 @@ onMounted(async () => {
     <App />
   </div>
   <div v-else>
-    <h1>ToDos</h1>
+    <h1>Todo List</h1>
     <main>
       <form @submit.prevent="signIn()">
         <input

@@ -12,11 +12,13 @@ app.use(
 );
 
 app.use(auth);
+app.use(api);
+const frontendFiles = process.cwd() + '/dist';
+app.use(express.static(frontendFiles));
+
 app.get('/api/hello', (req, res) => {
   res.json({ message: 'Hello from the Node server!' });
 });
-
-app.use(api);
 
 app.listen(port, () =>
   console.log(`Server running on http://localhost:${port}`),
